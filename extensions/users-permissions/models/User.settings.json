@@ -62,6 +62,10 @@
     "portfolio": {
       "via": "user",
       "model": "portfolio"
+    },
+    "token": {
+      "via": "users_permissions_user",
+      "model": "token"
     }
   }
 }
