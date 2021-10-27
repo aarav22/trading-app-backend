@@ -2,5 +2,7 @@ app.yaml
 .gcloudignore
 .git
 .gitignore
+.cache
+build
 node_modules/
 #!include:.gitignore

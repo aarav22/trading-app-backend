@@ -75,7 +75,20 @@ async function timerUpdate() {
     }
 }
 
+async function timerUpdateButSleep() {
+    await new Promise(resolve => setTimeout(resolve, 59000));
+    timerUpdate();
+}
+async function startEventButSleep() {
+    await new Promise(resolve => setTimeout(resolve, 30000));
+    startEvent();
+
+}
+
+
 module.exports = {
     startEvent,
-    timerUpdate
+    timerUpdate,
+    timerUpdateButSleep,
+    startEventButSleep
 };

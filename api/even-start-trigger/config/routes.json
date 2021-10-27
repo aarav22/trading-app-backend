@@ -62,6 +62,22 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/even-start-triggers/timer-update-sleep",
+      "handler": "even-start-trigger.timerUpdateButSleep",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/even-start-triggers/start-event-sleep",
+      "handler": "even-start-trigger.startEventButSleep",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
