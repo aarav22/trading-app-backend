@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "news_updates",
+  "info": {
+    "name": "News Update",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Article1": {
+      "type": "text",
+      "required": true,
+      "maxLength": 100000
+    },
+    "Article2": {
+      "type": "text",
+      "maxLength": 100000
+    },
+    "Article3": {
+      "type": "text",
+      "maxLength": 100000
+    },
+    "Article4": {
+      "type": "text",
+      "maxLength": 100000
+    },
+    "Article5": {
+      "type": "text",
+      "maxLength": 100000
+    },
+    "Title": {
+      "type": "string"
+    },
+    "round_number": {
+      "type": "integer"
+    },
+    "Article6": {
+      "type": "text",
+      "maxLength": 100000
+    },
+    "Article7": {
+      "type": "text",
+      "maxLength": 100000
+    }
+  }
+}

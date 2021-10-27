@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/leaderboard",
+      "handler": "Leaderboard.getLeaderboard",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

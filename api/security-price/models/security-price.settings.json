@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "security_prices",
+  "info": {
+    "name": "Security Price",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "currentPrice": {
+      "type": "decimal",
+      "required": true
+    },
+    "security": {
+      "via": "security_prices",
+      "model": "stock"
+    },
+    "previousPrice": {
+      "type": "decimal"
+    },
+    "round_number": {
+      "type": "integer"
+    },
+    "price_limit": {
+      "type": "decimal"
+    }
+  }
+}

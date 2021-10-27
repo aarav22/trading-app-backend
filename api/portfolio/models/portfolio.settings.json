@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "portfolios",
+  "info": {
+    "name": "portfolio",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "InvestorName": {
+      "type": "string",
+      "required": true
+    },
+    "AllocatedFunds": {
+      "type": "decimal",
+      "required": true
+    },
+    "AvailableFunds": {
+      "type": "decimal",
+      "required": true
+    },
+    "NetWorth": {
+      "type": "decimal",
+      "required": true
+    },
+    "user": {
+      "via": "portfolio",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "holdings": {
+      "collection": "holdings"
+    },
+    "unrealized_networth": {
+      "type": "decimal"
+    }
+  }
+}

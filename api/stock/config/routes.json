@@ -1,0 +1,75 @@
+{
+  "routes": [{
+      "method": "GET",
+      "path": "/stocks",
+      "handler": "stock.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/stocks/count",
+      "handler": "stock.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/stocks/:id",
+      "handler": "stock.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/stocks",
+      "handler": "stock.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/stocks/:id",
+      "handler": "stock.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/stocks/:id",
+      "handler": "stock.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/stocks/buy",
+      "handler": "stock.buy",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/stocks/sell",
+      "handler": "stock.sell",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/stocks/publish-prices",
+      "handler": "stock.publishPrices",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

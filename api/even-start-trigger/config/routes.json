@@ -1,0 +1,67 @@
+{
+  "routes": [{
+      "method": "GET",
+      "path": "/even-start-triggers",
+      "handler": "even-start-trigger.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/even-start-triggers/count",
+      "handler": "even-start-trigger.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/even-start-triggers/:id",
+      "handler": "even-start-trigger.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/even-start-triggers",
+      "handler": "even-start-trigger.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/even-start-triggers/:id",
+      "handler": "even-start-trigger.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/even-start-triggers/:id",
+      "handler": "even-start-trigger.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/even-start-triggers/start-event",
+      "handler": "even-start-trigger.startEvent",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/even-start-triggers/timer-update",
+      "handler": "even-start-trigger.timerUpdate",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

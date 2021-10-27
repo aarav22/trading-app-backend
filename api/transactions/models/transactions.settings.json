@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "transactions",
+  "info": {
+    "name": "Transactions"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "stock_ticker": {
+      "type": "string"
+    },
+    "purchase_price": {
+      "type": "decimal"
+    },
+    "quantity": {
+      "type": "decimal"
+    },
+    "round_number": {
+      "type": "integer"
+    },
+    "price_limit": {
+      "type": "decimal"
+    }
+  }
+}

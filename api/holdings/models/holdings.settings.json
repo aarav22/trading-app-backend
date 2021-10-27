@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "holdings",
+  "info": {
+    "name": "Holdings",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "stock_id": {
+      "type": "integer"
+    },
+    "average_price": {
+      "type": "decimal"
+    },
+    "total_quantity": {
+      "type": "decimal"
+    },
+    "transactions": {
+      "collection": "transactions"
+    },
+    "portfolio_id": {
+      "type": "integer"
+    },
+    "stock_type": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "even_start_triggers",
+  "info": {
+    "name": "Even Start Trigger",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "time": {
+      "type": "datetime"
+    },
+    "round_duration_in_seconds": {
+      "type": "integer"
+    },
+    "number_rounds": {
+      "type": "integer"
+    },
+    "current_round": {
+      "type": "integer"
+    },
+    "current_seconds": {
+      "type": "integer"
+    },
+    "event_started": {
+      "type": "enumeration",
+      "enum": [
+        "true",
+        "false",
+        "null"
+      ]
+    }
+  }
+}

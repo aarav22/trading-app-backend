@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stocks",
+  "info": {
+    "name": "security",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "ticker": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "previousPrice": {
+      "type": "decimal"
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "security_prices": {
+      "via": "security",
+      "collection": "security-price"
+    },
+    "currentPrice": {
+      "type": "decimal"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "stock",
+        "crypto",
+        "commodity"
+      ]
+    },
+    "price_limit": {
+      "type": "decimal"
+    }
+  }
+}
