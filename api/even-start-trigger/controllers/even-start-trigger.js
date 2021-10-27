@@ -12,36 +12,28 @@ async function startEvent() {
     try {
         if (new Date() > new Date(eventTimer['time']) && eventTimer['event_started'] === "null") {
             console.log("Event started");
-            strapi.eventTimerId = eventTimer['id'];
-            strapi.eventStarted = true;
-            strapi.roundDuration = eventTimer['round_duration_in_seconds'];
-            strapi.eventStartTime = new Date(eventTimer['time']);
-            strapi.roundNumber = eventTimer['current_round'];
-            strapi.maxRounds = eventTimer['number_rounds'];
-            strapi.timer = 0;
             // update event_started to true
             await strapi.api['even-start-trigger'].services['even-start-trigger'].update(
                 { id: eventTimer['id'] },
                 { event_started: true },
                 { current_seconds: 0 }
             );
-            strapi.io.emit('event-start', { eventStarted: true, time: strapi.eventStartTime, roundNumber: strapi.roundNumber, timer: strapi.timer });
+            axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app
+            ?event_started=${true}&event_start_time=${new Date(eventTimer['time'])}
+            &round_number=${eventTimer['current_round']}&timer=${eventTimer['current_seconds']}`);
+            // strapi.io.emit('event-start', { eventStarted: true, time: strapi.eventStartTime, roundNumber: strapi.roundNumber, timer: strapi.timer });
         }
         else {
             if (eventTimer['event_started'] === "false") {
-                strapi.eventStarted = false;
-                strapi.timer = 0;
-                strapi.roundNumber = 0;
                 await strapi.api['even-start-trigger'].services['even-start-trigger'].update(
                     { id: eventTimer['id'] },
                     { current_seconds: 0, current_round: 0 },
                 );
-                strapi.io.emit('event-start', { eventStarted: false, time: strapi.eventStartTime, roundNumber: strapi.roundNumber, timer: strapi.timer });
+                axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app/event-start
+                ?event_started=${false}&event_start_time=${new Date(eventTimer['time'])}
+                &round_number=${eventTimer['current_round']}&timer=${eventTimer['current_seconds']}`);
+                // strapi.io.emit('event-start', { eventStarted: false, time: strapi.eventStartTime, roundNumber: strapi.roundNumber, timer: strapi.timer });
             }
-            // console.log("Event not started");
-            // console.log(!eventTimer['event_started']);
-            // console.log(new Date() > new Date(eventTimer['time']));
-            // console.log(new Date(), new Date(eventTimer['time']));
         }
     } catch (error) {
         console.error("error A: ", error);
@@ -75,8 +67,10 @@ async function timerUpdate() {
             await strapi.api['news-update'].controllers['news-update'].publishNews();
             // recalculate the networths
             await strapi.api['portfolio'].controllers['portfolio'].recalculateNetworths();
-            console.log("EMISSION")
-            strapi.io.emit('round-update', { roundNumber: strapi.roundNumber });
+            console.log("EMISSION");
+            axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app/round-update
+            ?round_number=${eventTimer['current_round']}`);
+            // strapi.io.emit('round-update', { roundNumber: strapi.roundNumber });
         }
     }
 }

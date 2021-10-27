@@ -32,6 +32,5 @@ module.exports = {
             );
         }));
         draftArticleToPublish.length && console.log(`${draftArticleToPublish.length} articles have been published`);
-        draftArticleToPublish.length && strapi.io.emit('news-update', { newsUpdated: true, time: new Date() });
     }
 };
