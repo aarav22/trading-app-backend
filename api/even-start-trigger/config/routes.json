@@ -9,6 +9,31 @@
         "policies": []
       }
     },
+    {
+      "method": "GET",
+      "path": "/even-start-triggers/start-event",
+      "handler": "even-start-trigger.start_event",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/even-start-triggers/timer-update",
+      "handler": "even-start-trigger.timer_update",
+      "config": {
+        "policies": []
+      }
+    },
+
+    {
+      "method": "GET",
+      "path": "/start-event-sleep",
+      "handler": "even-start-trigger.start_event_but_sleep",
+      "config": {
+        "policies": []
+      }
+    },
 
     {
       "method": "GET",
@@ -58,31 +83,7 @@
         "policies": []
       }
     },
-    {
-      "method": "GET",
-      "path": "/even-start-triggers/start-event",
-      "handler": "even-start-trigger.start_event",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "GET",
-      "path": "/even-start-triggers/timer-update",
-      "handler": "even-start-trigger.timer_update",
-      "config": {
-        "policies": []
-      }
-    },
 
-    {
-      "method": "GET",
-      "path": "/start-event-sleep",
-      "handler": "even-start-trigger.start_event_but_sleep",
-      "config": {
-        "policies": []
-      }
-    },
     {
       "method": "GET",
       "path": "/fake",

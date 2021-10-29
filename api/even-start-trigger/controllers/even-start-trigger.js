@@ -4,6 +4,7 @@
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
  * to customize this controller
  */
+const axios = require('axios');
 async function start_event(ctx) {
     // console.log(eventTimer)
     try {
@@ -17,9 +18,9 @@ async function start_event(ctx) {
                 { event_started: true },
                 { current_seconds: 0 }
             );
-            axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app
-            ?event_started=${true}&event_start_time=${new Date(eventTimer['time'])}
-            &round_number=${eventTimer['current_round']}&timer=${eventTimer['current_seconds']}`);
+            axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app?event_started=${true}&event_start_time=${new Date(eventTimer['time'])}&round_number=${eventTimer['current_round']}&timer=${eventTimer['current_seconds']}`)
+                .catch((err) => console.error("error C: ", err));
+
             // strapi.io.emit('event-start', { eventStarted: true, time: strapi.eventStartTime, roundNumber: strapi.roundNumber, timer: strapi.timer });
         }
         else {
@@ -28,16 +29,15 @@ async function start_event(ctx) {
                     { id: eventTimer['id'] },
                     { current_seconds: 0, current_round: 0 },
                 );
-                axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app/event-start
-                ?event_started=${false}&event_start_time=${new Date(eventTimer['time'])}
-                &round_number=${eventTimer['current_round']}&timer=${eventTimer['current_seconds']}`);
+                await axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app/event-start?event_started=${false}&event_start_time=${new Date(eventTimer['time'])}&round_number=${eventTimer['current_round']}&timer=${eventTimer['current_seconds']}`)
+                    .catch((err) => console.error("error C: ", err));
                 // strapi.io.emit('event-start', { eventStarted: false, time: strapi.eventStartTime, roundNumber: strapi.roundNumber, timer: strapi.timer });
             }
         }
-        return ctx.response.send('ok');
+        return ctx ? ctx.response.send('ok') : 'ok';
     } catch (error) {
         console.error("error A: ", error);
-        return ctx.response.send('error');
+        return ctx ? ctx.response.send(error) : error;
     }
 }
 
@@ -51,11 +51,13 @@ async function timer_update(ctx) {
         const current_round = eventTimer['current_round'];
         if (eventTimer['event_started'] === "true") {
             let timer = eventTimer['current_seconds'];
-            timer++;
+            timer += 10;
             await strapi.api['even-start-trigger'].services['even-start-trigger'].update(
                 { id: eventTimer.id },
                 { current_seconds: timer },
             );
+            await axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app/round-update?timer=${timer}&round_number=${eventTimer['current_round']}`)
+                .catch(error => console.error("error C: ", error));
             if ((timer >= round_duration && current_round <= number_rounds) || current_round === 0) {
                 console.log("Round ended", current_round);
                 // To publish the prices
@@ -70,15 +72,15 @@ async function timer_update(ctx) {
                 // recalculate the networths
                 await strapi.api['portfolio'].controllers['portfolio'].recalculateNetworths();
                 console.log("EMISSION");
-                axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app/round-update
-            ?round_number=${eventTimer['current_round']}`);
+                await axios.get(`https://aic-sockets-pzbiacnqaa-em.a.run.app/round-update?timer=${timer}&round_number=${eventTimer['current_round']}`)
+                    .catch(error => console.error("error C: ", error));
                 // strapi.io.emit('round-update', { roundNumber: strapi.roundNumber });
             }
         }
-        return ctx.response.send('ok');
+        return ctx ? ctx.response.send('ok') : 'ok';
     } catch (error) {
         console.error("error B: ", error);
-        return ctx.response.send('error');
+        return ctx ? ctx.response.send(error) : error;
     }
 }
 
@@ -88,14 +90,14 @@ async function timer_update_but_sleep(ctx) {
         // console.log('time: ', time);
         await new Promise(resolve => setTimeout(resolve, time * 1000));
         timer_update();
-        return ctx.response.send('ok');
+        return ctx.send('ok');
     } catch (error) {
-        console.error("error B: ", error);
-        return ctx.response.send('error');
+        console.error("error B1: ", error);
+        return ctx.send('error');
     }
 
 }
-async function start_event_but_sleep() {
+async function start_event_but_sleep(ctx) {
     try {
         const { time } = ctx.query
         // console.log('time: ', time);

@@ -9,7 +9,7 @@ module.exports = async (ctx, next) => {
         // request is already authenticated in a different way
         return next();
     }
-    // add the detection of `token` query parameter
+
     if (
         (ctx.request && ctx.request.header && ctx.request.header.authorization) ||
         (ctx.request.query && ctx.request.query.token)
@@ -26,8 +26,8 @@ module.exports = async (ctx, next) => {
                 if (!token) {
                     throw new Error(`Invalid token: This token doesn't exist`);
                 } else {
-                    if (token.user && typeof token.token === 'string') {
-                        id = token.user.id;
+                    if (token.users_permissions_user && typeof token.token === 'string') {
+                        id = token.users_permissions_user.id;
                     }
                     isAdmin = false;
                 }
@@ -41,16 +41,15 @@ module.exports = async (ctx, next) => {
 
                 id = decoded.id;
                 isAdmin = decoded.isAdmin || false;
-
-                if (id === undefined) {
-                    throw new Error('Invalid token: Token did not contain required fields');
-                }
-
-                // fetch authenticated user
-                ctx.state.user = await strapi.plugins[
-                    'users-permissions'
-                ].services.user.fetchAuthenticatedUser(id);
             }
+            if (id === undefined) {
+                throw new Error('Invalid token: Token did not contain required fields');
+            }
+
+            // fetch authenticated user
+            ctx.state.user = await strapi.plugins[
+                'users-permissions'
+            ].services.user.fetchAuthenticatedUser(id);
         } catch (err) {
             return handleErrors(ctx, err, 'unauthorized');
         }
