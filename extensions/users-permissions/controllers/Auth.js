@@ -128,6 +128,16 @@ module.exports = {
                     })
                 );
             } else {
+                if (user.portfolio === null) {
+                    const portfolio = await strapi.services.portfolio.create({
+                        user: user.id,
+                        AllocatedFunds: 0,
+                        AvailableFunds: 1000000,
+                        NetWorth: 1000000,
+                        unrealized_networth: 1000000,
+                        InvestorName: user.username,
+                    });
+                }
                 ctx.send({
                     jwt: strapi.plugins['users-permissions'].services.jwt.issue({
                         id: user.id,

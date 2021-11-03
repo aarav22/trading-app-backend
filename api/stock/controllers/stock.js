@@ -8,7 +8,11 @@ const { parseMultipartData, sanitizeEntity } = require('strapi-utils');
 module.exports = {
     async find(ctx) {
         let entities;
-        entities = await strapi.services['stock'].find();
+        if (ctx.query._q) {
+            entities = await strapi.services.stock.search(ctx.query);
+        } else {
+            entities = await strapi.services.stock.find(ctx.query);
+        }
         // remove security_prices property from all entities
         entities = entities.map(entity => {
             delete entity.security_prices;
