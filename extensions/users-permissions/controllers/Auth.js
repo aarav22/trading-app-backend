@@ -128,8 +128,9 @@ module.exports = {
                     })
                 );
             } else {
+                const portfolio = null;
                 if (user.portfolio === null) {
-                    const portfolio = await strapi.services.portfolio.create({
+                    portfolio = await strapi.services.portfolio.create({
                         user: user.id,
                         AllocatedFunds: 0,
                         AvailableFunds: 1000000,
@@ -145,6 +146,7 @@ module.exports = {
                     user: sanitizeEntity(user.toJSON ? user.toJSON() : user, {
                         model: strapi.query('user', 'users-permissions').model,
                     }),
+                    portfolio: portfolio,
                 });
             }
         } else {
