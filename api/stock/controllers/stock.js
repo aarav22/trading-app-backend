@@ -1,29 +1,11 @@
 'use strict';
 const { parseMultipartData, sanitizeEntity } = require('strapi-utils');
-const MAX_ALLOCS = { 'stock': 400000, 'crypto': 300000, 'commodity': 300000 }
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
  * to customize this controller
  */
-async function publishPrices() {
-    const eventTimerArray = await strapi.api['even-start-trigger'].services['even-start-trigger'].find();
-    const eventTimer = eventTimerArray[0];
-    const draftPricesToPublish = await strapi.api['security-price'].services['security-price'].find({
-        round_number_eq: eventTimer['current_round'],
-    })
 
-    // draftPricesToPublish.length && console.log(draftPricesToPublish);
-    await Promise.all(draftPricesToPublish.map(price => {
-        // console.log("PRICE: ", price.id);
-        // update currentPrice and previousPrice in stocks
-        return strapi.api['stock'].services['stock'].update(
-            { id: price.security.id },
-            { currentPrice: price.currentPrice, previousPrice: price.previousPrice, price_limit: price.price_limit },
-        )
-    }))
-}
 module.exports = {
-    publishPrices,
     async find(ctx) {
         let entities;
         entities = await strapi.services['stock'].find();
@@ -32,7 +14,7 @@ module.exports = {
             delete entity.security_prices;
             return entity;
         });
-        console.log(entities);
+        // console.log(entities);
         return entities.map(entity => sanitizeEntity(entity, { model: strapi.models['stock'] }));
     },
     async findOne(ctx) {
@@ -51,6 +33,11 @@ module.exports = {
     async buy(ctx) {
         const { stock_id, quantity } = ctx.request.body;
         const portfolio_id = ctx.state.user.portfolio;
+        const event_timer_arr = await strapi.services['even-start-trigger'].find();
+        const event_timer = event_timer_arr[0];
+        if (event_timer.event_started !== "true") {
+            return ctx.badRequest(null, [{ messages: [{ id: 'The event has not started' }] }]);
+        }
         // print jwt token
         // console.log(ctx.state);
         // get user from the jwt token
@@ -92,6 +79,7 @@ module.exports = {
             return ctx.badRequest(null, [{ messages: [{ id: 'The price limit is exceeded' }] }]);
         }
 
+
         const current_holding_partial =
             existing_portfolio.holdings.find(
                 holding =>
@@ -104,7 +92,7 @@ module.exports = {
             const current_txn =
                 current_holding.transactions ? current_holding.transactions.find(
                     txn =>
-                    (txn.round_number === strapi.roundNumber
+                    (txn.round_number === event_timer['current_round']
                         && txn.purchase_price === current_stock.currentPrice))
                     : console.log('no txn found', current_holding);
             if (current_txn) {
@@ -131,7 +119,7 @@ module.exports = {
                 try {
                     const new_txn_data = {
                         stock_ticker: current_stock.ticker,
-                        round_number: strapi.roundNumber,
+                        round_number: event_timer['current_round'],
                         price_limit: PRICE_LIMIT - amount_to_buy,
                         quantity: quantity,
                         purchase_price: current_stock.currentPrice,
@@ -154,7 +142,7 @@ module.exports = {
             try {
                 const new_txn_data = {
                     stock_ticker: current_stock.ticker,
-                    round_number: strapi.roundNumber,
+                    round_number: event_timer['current_round'],
                     price_limit: PRICE_LIMIT - amount_to_buy,
                     quantity: quantity,
                     purchase_price: current_stock.currentPrice,
@@ -194,6 +182,11 @@ module.exports = {
 
     async sell(ctx) {
         const { stock_id, quantity } = ctx.request.body;
+        const event_timer_arr = await strapi.services['even-start-trigger'].find();
+        const event_timer = event_timer_arr[0];
+        if (event_timer.event_started !== "true") {
+            return ctx.badRequest(null, [{ messages: [{ id: 'The event has not started' }] }]);
+        }
         // update the portfolio
         const portfolio_id = ctx.state.user.portfolio;
         const existing_portfolio = await strapi.query('portfolio').findOne({ id: portfolio_id });
@@ -244,7 +237,7 @@ module.exports = {
         let invested_amount = 0;
         const profit = quantity * (current_stock.currentPrice - current_holding.average_price);
         const amount_to_sell = quantity * current_stock.currentPrice;
-        console.log("B: ", amount_to_sell, profit);
+        // console.log("B: ", amount_to_sell, profit);
 
         var quantity_to_sell = quantity;
         for (let txn of all_txns) {
@@ -323,13 +316,13 @@ module.exports = {
         if (AllocatedFunds < 0) {
             AllocatedFunds = 0;
         }
-        console.log("C-0: ", existing_portfolio.AllocatedFunds, invested_amount, AllocatedFunds);
+        // console.log("C-0: ", existing_portfolio.AllocatedFunds, invested_amount, AllocatedFunds);
         const AvailableFunds = existing_portfolio.AvailableFunds + invested_amount + profit;
         const NetWorth = existing_portfolio.NetWorth + profit;
         const holdings = existing_portfolio.holdings.filter(
             holding => !deleted_holdings_ids.includes(holding.id)
         );
-        console.log("C: ", AllocatedFunds, AvailableFunds, NetWorth);
+        // console.log("C: ", AllocatedFunds, AvailableFunds, NetWorth);
         try {
             const entity = await strapi.services['portfolio'].update(
                 { id: portfolio_id },

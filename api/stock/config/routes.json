@@ -62,14 +62,6 @@
       "config": {
         "policies": []
       }
-    },
-    {
-      "method": "GET",
-      "path": "/stocks/publish-prices",
-      "handler": "stock.publishPrices",
-      "config": {
-        "policies": []
-      }
     }
   ]
 }

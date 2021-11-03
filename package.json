@@ -9,7 +9,8 @@
     "build": "strapi build",
     "strapi": "strapi",
     "gcp-build": "strapi build",
-    "gcp-deploy-staging": "gcloud app deploy app.yaml --project focal-freedom-329917"
+    "gcp-deploy-staging": "gcloud app deploy app.yaml --project focal-freedom-329917",
+    "log-staging": "gcloud app logs tail --project focal-freedom-329917 -s default"
   },
   "devDependencies": {},
   "dependencies": {

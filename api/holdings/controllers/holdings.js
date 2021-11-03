@@ -11,7 +11,7 @@ module.exports = {
      * @return {Promise}
      */
     async find(ctx) {
-        console.log(ctx.state);
+        // console.log(ctx.state);
         const portfolio = await strapi.query('portfolio').findOne({ id: ctx.state.user.portfolio });
         return portfolio.holdings;
     },
