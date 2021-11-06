@@ -128,7 +128,7 @@ module.exports = {
                     })
                 );
             } else {
-                const portfolio = null;
+                let portfolio = null;
                 if (user.portfolio === null) {
                     portfolio = await strapi.services.portfolio.create({
                         user: user.id,
