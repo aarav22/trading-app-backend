@@ -79,6 +79,9 @@ After the user has been authenticated via Auth0 (whitelisted), they are initiali
 
 After every round the leaderboard is also updated.
 
+### Architecture
+[![arch-img]](#)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -168,6 +171,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [license-url]: https://github.com/aarav22/trading-app-backend/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/aarav22
+[arch-img]: images/trading_gcp.png
 [product-screenshot]: images/buy_img.jpeg
 [product-shot-1]: images/port_img.jpeg
 [product-shot-2]: images/leader_img.jpeg
